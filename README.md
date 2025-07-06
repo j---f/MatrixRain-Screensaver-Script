@@ -25,6 +25,22 @@ The Klingon script (Piqad, ISO-15924 code Piqd/293) is included using the Privat
 
 **Note:** Without the font, Klingon characters will appear as tofu (empty squares).
 
+## Single-Alphabet Matrix Rain
+
+For research, font QA, and demo purposes, every supported script/alphabet has its own standalone Matrix Rain HTML file. These files render the rain effect using only one script at a time (e.g. only Klingon, only Cardassian, only Hebrew, etc.).
+
+Example files:
+- `matrixrain_klingon.html` — Klingon-only Matrix Rain
+- `matrixrain_cardassian.html` — Cardassian-only Matrix Rain
+- `matrixrain_hebrew.html` — Hebrew-only Matrix Rain
+- ...and many more, one per script in the main array
+
+These are auto-generated via `matrixrain_generate_all_single_script_rain.js`.
+
+To view a specific script's rain effect, simply open the corresponding HTML file in your browser.
+
+---
+
 ## Usage
 ### 1. Web Demo
 Visit the [Live Demo](https://j---f.github.io/MatrixRain-Screensaver-Script/) to see it in action.
