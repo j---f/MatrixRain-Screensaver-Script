@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cardassian Font Glyph Test</title>
+  <style>
+    body {
+      background: #111;
+      color: #EEE;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(16, 2.5em);
+      gap: 0.25em;
+      margin: 2em auto;
+      width: fit-content;
+    }
+    .cell {
+      width: 2.5em;
+      height: 2.5em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #222;
+      border: 1px solid #444;
+      font-size: 2em;
+      font-family: 'CardassianStd', sans-serif;
+      user-select: all;
+      -webkit-user-select: all;
+    }
+    .label {
+      text-align: center;
+      margin-top: 1em;
+      color: #AAA;
+    }
+  </style>
+  <link rel="preload" href="Downloads/StarTrek_Cardassian/CARDAS-1.TTF" as="font" type="font/ttf" crossorigin>
+  <style>
+    @font-face {
+      font-family: 'CardassianStd';
+      src: url('Downloads/StarTrek_Cardassian/CARDAS-1.TTF') format('truetype');
+      unicode-range: U+0021-007E;
+      font-display: swap;
+    }
+  </style>
+</head>
+<body>
+  <h1 class="label">Cardassian Font Glyph Test (ASCII Range U+0021–U+007E)</h1>
+  <div class="grid" id="grid"></div>
+  <div class="label">If you see blank squares or Latin letters, the font did not load or does not map those glyphs.</div>
+  <script>
+    const grid = document.getElementById('grid');
+    // Printable ASCII range
+    for (let cp = 0x21; cp <= 0x7E; cp++) {
+      const cell = document.createElement('div');
+      cell.className = 'cell';
+      cell.textContent = String.fromCharCode(cp);
+      grid.appendChild(cell);
+    }
+  </script>
+</body>
+</html>

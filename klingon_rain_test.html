@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Klingon Matrix Rain Test</title>
+  <style>
+    @font-face {
+      font-family: 'KlingonPiqadVaHbo';
+      src: url('Klingon-pIqaD-VaHbo.ttf') format('truetype');
+      unicode-range: U+F8D0-F8FF;
+      font-display: swap;
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: #111;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+      background: #111;
+    }
+    .overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100vw; color: #0f0; font-family: monospace; font-size: 1.5em; padding: 10px;
+      z-index: 10;
+      pointer-events: none;
+      text-shadow: 0 0 8px #0f0;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">Klingon Matrix Rain – Only Klingon pIqaD PUA glyphs</div>
+  <canvas id="rain"></canvas>
+  <script>
+    // Only use the codepoints that have glyphs (excluding the 3 tofu)
+    const klingonPUA = [
+      0xF8D0,0xF8D1,0xF8D2,0xF8D3,0xF8D4,0xF8D5,0xF8D6,0xF8D7,0xF8D8,0xF8D9,0xF8DA,0xF8DB,0xF8DC,0xF8DD,0xF8DE,0xF8DF,
+      0xF8E0,0xF8E1,0xF8E2,0xF8E3,0xF8E4,0xF8E5,0xF8E6,0xF8E7,0xF8E8,0xF8E9,0xF8EA,0xF8EB,0xF8EC,0xF8EE,0xF8EF,0xF8F0,
+      0xF8F1,0xF8F2,0xF8F3,0xF8F4,0xF8F5,0xF8F6,0xF8F7,0xF8F8,0xF8F9,0xF8FA,0xF8FB,0xF8FC,0xF8FD,0xF8FE,0xF8FF
+    ];
+    // Remove the 3 tofu codepoints (e.g., 0xF8ED, 0xF8EA, 0xF8EB) if needed; adjust as per your font
+    // This list is based on your working test screenshot
+
+    const canvas = document.getElementById('rain');
+    const ctx = canvas.getContext('2d');
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+
+    // Matrix rain settings
+    const fontSize = 38;
+    const columns = Math.floor(width / fontSize);
+    const drops = Array(columns).fill(1);
+
+    function draw() {
+      ctx.fillStyle = 'rgba(17,17,17,0.15)';
+      ctx.fillRect(0, 0, width, height);
+      ctx.font = fontSize + "px KlingonPiqadPUA";
+      ctx.fillStyle = '#0f0';
+      for (let i = 0; i < drops.length; i++) {
+        // Pick a random Klingon glyph
+        const codepoint = klingonPUA[Math.floor(Math.random() * klingonPUA.length)];
+        const text = String.fromCharCode(codepoint);
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 55);
+
+    window.addEventListener('resize', () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+    });
+  </script>
+</body>
+</html>

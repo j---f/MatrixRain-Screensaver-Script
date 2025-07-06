@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Matrix Rain - Glagolitic</title>
+  <style>
+    html, body { width: 100vw; height: 100vh; margin: 0; padding: 0; background: black; overflow: hidden; }
+    canvas { display: block; width: 100vw; height: 100vh; background: black; }
+    @font-face {
+      font-family: 'KlingonPiqadPUA';
+      src: url('Klingon-pIqaD-PUA.ttf') format('truetype');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'CardassianStd';
+      src: url('CARDAS-1.TTF') format('truetype');
+      font-display: swap;
+    }
+  </style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+<script>
+const fontSize = 26;
+let canvas = document.getElementById('matrix');
+let ctx = canvas.getContext('2d');
+let width = window.innerWidth;
+let height = window.innerHeight;
+canvas.width = width;
+canvas.height = height;
+let columns = Math.floor(width / fontSize);
+let drops = Array(columns).fill(1);
+const chars = ["Ⰰ","Ⰱ","Ⰲ","Ⰳ","Ⰴ","Ⰵ","Ⰶ","Ⰷ","Ⰸ","Ⰹ","Ⰺ","Ⰻ","Ⰼ","Ⰽ","Ⰾ","Ⰿ","Ⱀ","Ⱁ","Ⱂ","Ⱃ","Ⱄ","Ⱅ","Ⱆ","Ⱇ","Ⱈ","Ⱉ","Ⱊ","Ⱋ","Ⱌ","Ⱍ","Ⱎ","Ⱏ","Ⱐ","Ⱑ","Ⱒ","Ⱓ","Ⱔ","Ⱕ","Ⱖ","Ⱗ","Ⱘ","Ⱙ","Ⱚ","Ⱛ","Ⱜ","Ⱝ","Ⱞ","Ⱟ","ⰰ","ⰱ","ⰲ","ⰳ","ⰴ","ⰵ","ⰶ","ⰷ","ⰸ","ⰹ","ⰺ","ⰻ","ⰼ","ⰽ","ⰾ","ⰿ","ⱀ","ⱁ","ⱂ","ⱃ","ⱄ","ⱅ","ⱆ","ⱇ","ⱈ","ⱉ","ⱊ","ⱋ","ⱌ","ⱍ","ⱎ","ⱏ","ⱐ","ⱑ","ⱒ","ⱓ","ⱔ","ⱕ","ⱖ","ⱗ","ⱘ","ⱙ","ⱚ","ⱛ","ⱜ","ⱝ","ⱞ","ⱟ"];
+const font = "'Noto Sans Glagolitic', sans-serif";
+function draw() {
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+  ctx.fillRect(0, 0, width, height);
+  for (let i = 0; i < columns; i++) {
+    ctx.font = fontSize + "px " + font;
+    ctx.fillStyle = "#0F0";
+    let text = chars[Math.floor(Math.random() * chars.length)];
+    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+    if (drops[i] * fontSize > height && Math.random() > 0.975) {
+      drops[i] = 0;
+    }
+    drops[i]++;
+  }
+}
+setInterval(draw, 70);
+window.addEventListener('resize', () => {
+  width = window.innerWidth;
+  height = window.innerHeight;
+  canvas.width = width;
+  canvas.height = height;
+  columns = Math.floor(width / fontSize);
+  drops = Array(columns).fill(1);
+});
+</script>
+</body>
+</html>

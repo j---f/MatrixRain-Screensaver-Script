@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Klingon pIqaD Unicode Test</title>
+  <style>
+  @font-face {
+    font-family: 'KlingonPiqadPUA';
+    src: url('Klingon-pIqaD-PUA.ttf') format('truetype');
+    unicode-range: U+F8D0-F8FF;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'KlingonPiqadMandel';
+    src: url('Klingon-pIqaD-Mandel.ttf') format('truetype');
+    unicode-range: U+F8D0-F8FF;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'KlingonPiqadHaSta';
+    src: url('Klingon-pIqaD-HaSta.ttf') format('truetype');
+    unicode-range: U+F8D0-F8FF;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'KlingonPiqadVaHbo';
+    src: url('Klingon-pIqaD-VaHbo.ttf') format('truetype');
+    unicode-range: U+F8D0-F8FF;
+    font-display: swap;
+  }
+    @font-face {
+      font-family: 'KlingonPiqadPUA';
+      src: url('Klingon-pIqaD-PUA.ttf') format('truetype');
+      unicode-range: U+F8D0-F8FF;
+      font-display: swap;
+    }
+    body { background: #111; color: #0f0; font-family: monospace; }
+    .grid { display: flex; flex-wrap: wrap; width: 900px; }
+    .cell {
+      width: 60px; height: 80px; border: 1px solid #333; margin: 2px; text-align: center;
+      font-family: 'KlingonPiqadPUA', sans-serif;
+      font-size: 48px; display: flex; flex-direction: column; justify-content: center;
+      background: #181818;
+      user-select: text;
+      -webkit-user-select: text;
+    }
+    .codepoint { font-size: 12px; color: #7f7; margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <h1>Klingon pIqaD Unicode Test</h1>
+  <p>All glyphs in the Private Use Area U+F8D0–U+F8FF are shown below.<br>
+    Font: <span id="fontLabel">Klingon-pIqaD-PUA.ttf</span><br>
+    <label for="fontSelect">Choose font:</label>
+    <select id="fontSelect">
+      <option value="KlingonPiqadPUA">PUA (Remapped)</option>
+      <option value="KlingonPiqadMandel">Mandel</option>
+      <option value="KlingonPiqadHaSta">HaSta</option>
+      <option value="KlingonPiqadVaHbo">VaHbo</option>
+    </select>
+    <br>If you see tofu (□) or blank squares, those codepoints are not mapped in your font.
+  </p>
+  <div class="grid">
+    <!-- JS will fill this in -->
+  </div>
+  <script>
+    const grid = document.querySelector('.grid');
+    const fontLabel = document.getElementById('fontLabel');
+    const fontSelect = document.getElementById('fontSelect');
+    const fontNames = {
+      KlingonPiqadPUA: 'Klingon-pIqaD-PUA.ttf',
+      KlingonPiqadMandel: 'Klingon-pIqaD-Mandel.ttf',
+      KlingonPiqadHaSta: 'Klingon-pIqaD-HaSta.ttf',
+      KlingonPiqadVaHbo: 'Klingon-pIqaD-vaHbo.ttf',
+    };
+    function setFont(font) {
+      document.querySelectorAll('.cell').forEach(cell => {
+        cell.style.fontFamily = font + ', sans-serif'; // Use raw font name for cross-browser compatibility
+      });
+      fontLabel.textContent = fontNames[font] || font;
+    }
+    // Build grid
+    for (let cp = 0xF8D0; cp <= 0xF8FF; ++cp) {
+      const cell = document.createElement('div');
+      cell.className = 'cell';
+      cell.innerHTML = `
+        <span>&#x${cp.toString(16)};</span>
+        <span class="codepoint">U+${cp.toString(16).toUpperCase()}</span>
+      `;
+      grid.appendChild(cell);
+    }
+    // Font selection logic
+    fontSelect.addEventListener('change', e => setFont(e.target.value));
+    setFont(fontSelect.value);
+  </script>
+</body>
+</html>

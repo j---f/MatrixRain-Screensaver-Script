@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Matrix Rain - Nepalese</title>
+  <style>
+    html, body { width: 100vw; height: 100vh; margin: 0; padding: 0; background: black; overflow: hidden; }
+    canvas { display: block; width: 100vw; height: 100vh; background: black; }
+    @font-face {
+      font-family: 'KlingonPiqadPUA';
+      src: url('Klingon-pIqaD-PUA.ttf') format('truetype');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'CardassianStd';
+      src: url('CARDAS-1.TTF') format('truetype');
+      font-display: swap;
+    }
+  </style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+<script>
+const fontSize = 26;
+let canvas = document.getElementById('matrix');
+let ctx = canvas.getContext('2d');
+let width = window.innerWidth;
+let height = window.innerHeight;
+canvas.width = width;
+canvas.height = height;
+let columns = Math.floor(width / fontSize);
+let drops = Array(columns).fill(1);
+const chars = ["ऀ","ँ","ं","ः","ऄ","अ","आ","इ","ई","उ","ऊ","ऋ","ऌ","ऍ","ऎ","ए","ऐ","ऑ","ऒ","ओ","औ","क","ख","ग","घ","ङ","च","छ","ज","झ","ञ","ट","ठ","ड","ढ","ण","त","थ","द","ध","न","ऩ","प","फ","ब","भ","म","य","र","ऱ","ल","ळ","ऴ","व","श","ष","स","ह","ऺ","ऻ","़","ऽ","ा","ि","ी","ु","ू","ृ","ॄ","ॅ","ॆ","े","ै","ॉ","ॊ","ो","ौ","्","ॎ","ॏ","ॐ","॑","॒","॓","॔","ॕ","ॖ","ॗ","क़","ख़","ग़","ज़","ड़","ढ़","फ़","य़","ॠ","ॡ","ॢ","ॣ","।","॥","०","१","२","३","४","५","६","७","८","९","॰","ॱ","ॲ","ॳ","ॴ","ॵ","ॶ","ॷ","ॸ","ॹ","ॺ","ॻ","ॼ","ॽ","ॾ","ॿ"];
+const font = "'Noto Sans Devanagari', sans-serif";
+function draw() {
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+  ctx.fillRect(0, 0, width, height);
+  for (let i = 0; i < columns; i++) {
+    ctx.font = fontSize + "px " + font;
+    ctx.fillStyle = "#0F0";
+    let text = chars[Math.floor(Math.random() * chars.length)];
+    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+    if (drops[i] * fontSize > height && Math.random() > 0.975) {
+      drops[i] = 0;
+    }
+    drops[i]++;
+  }
+}
+setInterval(draw, 70);
+window.addEventListener('resize', () => {
+  width = window.innerWidth;
+  height = window.innerHeight;
+  canvas.width = width;
+  canvas.height = height;
+  columns = Math.floor(width / fontSize);
+  drops = Array(columns).fill(1);
+});
+</script>
+</body>
+</html>

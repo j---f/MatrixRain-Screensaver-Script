@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Matrix Rain - Osage</title>
+  <style>
+    html, body { width: 100vw; height: 100vh; margin: 0; padding: 0; background: black; overflow: hidden; }
+    canvas { display: block; width: 100vw; height: 100vh; background: black; }
+    @font-face {
+      font-family: 'KlingonPiqadPUA';
+      src: url('Klingon-pIqaD-PUA.ttf') format('truetype');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'CardassianStd';
+      src: url('CARDAS-1.TTF') format('truetype');
+      font-display: swap;
+    }
+  </style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+<script>
+const fontSize = 26;
+let canvas = document.getElementById('matrix');
+let ctx = canvas.getContext('2d');
+let width = window.innerWidth;
+let height = window.innerHeight;
+canvas.width = width;
+canvas.height = height;
+let columns = Math.floor(width / fontSize);
+let drops = Array(columns).fill(1);
+const chars = ["Ұ","ұ","Ҳ","ҳ","Ҵ","ҵ","Ҷ","ҷ","Ҹ","ҹ","Һ","һ","Ҽ","ҽ","Ҿ","ҿ","Ӏ","Ӂ","ӂ","Ӄ","ӄ","Ӆ","ӆ","Ӈ","ӈ","Ӊ","ӊ","Ӌ","ӌ","Ӎ","ӎ","ӏ","Ӑ","ӑ","Ӓ","ӓ","Ӕ","ӕ","Ӗ","ӗ","Ә","ә","Ӛ","ӛ","Ӝ","ӝ","Ӟ","ӟ","Ӡ","ӡ","Ӣ","ӣ","Ӥ","ӥ","Ӧ","ӧ","Ө","ө","Ӫ","ӫ","Ӭ","ӭ","Ӯ","ӯ","Ӱ","ӱ","Ӳ","ӳ","Ӵ","ӵ","Ӷ","ӷ","Ӹ","ӹ","Ӻ","ӻ","Ӽ","ӽ","Ӿ","ӿ"];
+const font = "'Noto Sans Osage', sans-serif";
+function draw() {
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+  ctx.fillRect(0, 0, width, height);
+  for (let i = 0; i < columns; i++) {
+    ctx.font = fontSize + "px " + font;
+    ctx.fillStyle = "#0F0";
+    let text = chars[Math.floor(Math.random() * chars.length)];
+    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+    if (drops[i] * fontSize > height && Math.random() > 0.975) {
+      drops[i] = 0;
+    }
+    drops[i]++;
+  }
+}
+setInterval(draw, 70);
+window.addEventListener('resize', () => {
+  width = window.innerWidth;
+  height = window.innerHeight;
+  canvas.width = width;
+  canvas.height = height;
+  columns = Math.floor(width / fontSize);
+  drops = Array(columns).fill(1);
+});
+</script>
+</body>
+</html>

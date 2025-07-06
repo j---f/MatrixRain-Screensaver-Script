@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cardassian Matrix Rain Test</title>
+  <style>
+    html, body {
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      background: black;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+      background: black;
+    }
+    @font-face {
+      font-family: 'CardassianStd';
+      src: url('Downloads/StarTrek_Cardassian/CARDAS-1.TTF') format('truetype');
+      unicode-range: U+0021-007E;
+      font-display: swap;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="matrix"></canvas>
+  <script>
+    const fontSize = 26;
+    const asciiChars = [];
+    for (let cp = 0x21; cp <= 0x7E; cp++) {
+      asciiChars.push(String.fromCharCode(cp));
+    }
+    let canvas = document.getElementById('matrix');
+    let ctx = canvas.getContext('2d');
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+    let columns = Math.floor(width / fontSize);
+    let drops = Array(columns).fill(1);
+    function draw() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, width, height);
+      ctx.font = `${fontSize}px 'CardassianStd', sans-serif`;
+      ctx.fillStyle = '#0FF';
+      for (let i = 0; i < columns; i++) {
+        let text = asciiChars[Math.floor(Math.random() * asciiChars.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+    window.addEventListener('resize', () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+      columns = Math.floor(width / fontSize);
+      drops = Array(columns).fill(1);
+    });
+  </script>
+</body>
+</html>

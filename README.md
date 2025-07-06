@@ -7,10 +7,23 @@ A Unicode-enhanced Matrix rain screensaver supporting all major world alphabets 
 
 ## Features
 - Classic Matrix rain animation in vibrant green
-- Full Unicode support: Latin, Greek, Cyrillic, Hebrew, Arabic, CJK (Chinese, Japanese, Korean), Indic, and more
+- Full Unicode support: Latin, Greek, Cyrillic, Hebrew, Arabic, CJK (Chinese, Japanese, Korean), Indic, Klingon (Piqad), and more
 - No emoji/tofu squares: robust font loading and glyph filtering
 - Responsive design, works in browsers and as a screensaver
 - Uses Google Noto fonts for broad script coverage
+
+## Klingon (Piqad) Support
+The Klingon script (Piqad, ISO-15924 code Piqd/293) is included using the Private Use Area (PUA: U+F8D0–U+F8FF). To see Klingon glyphs rendered correctly, you must provide a compatible Klingon Piqad font file.
+
+### How to Add Klingon Font
+1. Download a Klingon Piqad font (such as KLIpIqaD or pIqaD HaSta):
+   - [KLI pIqaD font (truetype)](https://www.kli.org/fonts/pIqaD.ttf)
+   - [Alternative Klingon fonts (scroll to pIqaD section)](https://www.evertype.com/fonts/tlh/)
+2. Rename the downloaded font to `KLIpIqaD.ttf` or convert to `KLIpIqaD.woff2` if you prefer webfont format.
+3. Place the font file in the same directory as your `index.html`/`MatrixRain.html`.
+4. The Matrix Rain will now display Klingon glyphs in the rain animation!
+
+**Note:** Without the font, Klingon characters will appear as tofu (empty squares).
 
 ## Usage
 ### 1. Web Demo
