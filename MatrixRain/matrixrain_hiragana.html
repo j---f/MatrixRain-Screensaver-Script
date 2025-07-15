@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MatrixRain - Hiragana</title>
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP:400&display=swap" rel="stylesheet">
+  <style>
+    
+    body { margin: 0; background: #000; overflow: hidden; }
+    #matrixCanvas { display: block; width: 100vw; height: 100vh; background: #000; }
+    #rainLabel {
+      position: absolute; top: 10px; left: 10px; z-index: 10;
+      background: rgba(0,0,0,0.7); color: #0f0; font-size: 2em; padding: 8px 16px; border-radius: 8px;
+      font-family: 'Noto Sans JP', 'Noto Sans', sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div id="rainLabel">Hiragana</div>
+  <canvas id="matrixCanvas"></canvas>
+  <script>
+    function filterTofu(chars, font) {
+      const size = 40;
+      const testCanvas = document.createElement('canvas');
+      testCanvas.width = size;
+      testCanvas.height = size;
+      const ctx = testCanvas.getContext('2d');
+      ctx.textBaseline = 'top';
+      ctx.font = size + 'px ' + font;
+      ctx.clearRect(0, 0, size, size);
+      ctx.fillText('\u25A1', 0, 0);
+      const tofuData = ctx.getImageData(0, 0, size, size).data;
+      ctx.clearRect(0, 0, size, size);
+      const blankData = ctx.getImageData(0, 0, size, size).data;
+      function isSame(a, b) {
+        for (let i = 0; i < a.length; i++) if (a[i] != b[i]) return false;
+        return true;
+      }
+      return chars.filter(ch => {
+        if (/\s/.test(ch)) return false;
+        ctx.clearRect(0, 0, size, size);
+        ctx.fillText(ch, 0, 0);
+        const glyphData = ctx.getImageData(0, 0, size, size).data;
+        return !isSame(glyphData, tofuData) && !isSame(glyphData, blankData);
+      });
+    }
+    const fontStack = "'Noto Sans JP', 'Noto Sans', sans-serif";
+    let charsRaw = [String.fromCodePoint(0x3040),String.fromCodePoint(0x3041),String.fromCodePoint(0x3042),String.fromCodePoint(0x3043),String.fromCodePoint(0x3044),String.fromCodePoint(0x3045),String.fromCodePoint(0x3046),String.fromCodePoint(0x3047),String.fromCodePoint(0x3048),String.fromCodePoint(0x3049),String.fromCodePoint(0x304a),String.fromCodePoint(0x304b),String.fromCodePoint(0x304c),String.fromCodePoint(0x304d),String.fromCodePoint(0x304e),String.fromCodePoint(0x304f),String.fromCodePoint(0x3050),String.fromCodePoint(0x3051),String.fromCodePoint(0x3052),String.fromCodePoint(0x3053),String.fromCodePoint(0x3054),String.fromCodePoint(0x3055),String.fromCodePoint(0x3056),String.fromCodePoint(0x3057),String.fromCodePoint(0x3058),String.fromCodePoint(0x3059),String.fromCodePoint(0x305a),String.fromCodePoint(0x305b),String.fromCodePoint(0x305c),String.fromCodePoint(0x305d),String.fromCodePoint(0x305e),String.fromCodePoint(0x305f),String.fromCodePoint(0x3060),String.fromCodePoint(0x3061),String.fromCodePoint(0x3062),String.fromCodePoint(0x3063),String.fromCodePoint(0x3064),String.fromCodePoint(0x3065),String.fromCodePoint(0x3066),String.fromCodePoint(0x3067),String.fromCodePoint(0x3068),String.fromCodePoint(0x3069),String.fromCodePoint(0x306a),String.fromCodePoint(0x306b),String.fromCodePoint(0x306c),String.fromCodePoint(0x306d),String.fromCodePoint(0x306e),String.fromCodePoint(0x306f),String.fromCodePoint(0x3070),String.fromCodePoint(0x3071),String.fromCodePoint(0x3072),String.fromCodePoint(0x3073),String.fromCodePoint(0x3074),String.fromCodePoint(0x3075),String.fromCodePoint(0x3076),String.fromCodePoint(0x3077),String.fromCodePoint(0x3078),String.fromCodePoint(0x3079),String.fromCodePoint(0x307a),String.fromCodePoint(0x307b),String.fromCodePoint(0x307c),String.fromCodePoint(0x307d),String.fromCodePoint(0x307e),String.fromCodePoint(0x307f),String.fromCodePoint(0x3080),String.fromCodePoint(0x3081),String.fromCodePoint(0x3082),String.fromCodePoint(0x3083),String.fromCodePoint(0x3084),String.fromCodePoint(0x3085),String.fromCodePoint(0x3086),String.fromCodePoint(0x3087),String.fromCodePoint(0x3088),String.fromCodePoint(0x3089),String.fromCodePoint(0x308a),String.fromCodePoint(0x308b),String.fromCodePoint(0x308c),String.fromCodePoint(0x308d),String.fromCodePoint(0x308e),String.fromCodePoint(0x308f),String.fromCodePoint(0x3090),String.fromCodePoint(0x3091),String.fromCodePoint(0x3092),String.fromCodePoint(0x3093),String.fromCodePoint(0x3094),String.fromCodePoint(0x3095),String.fromCodePoint(0x3096),String.fromCodePoint(0x3097),String.fromCodePoint(0x3098),String.fromCodePoint(0x3099),String.fromCodePoint(0x309a),String.fromCodePoint(0x309b),String.fromCodePoint(0x309c),String.fromCodePoint(0x309d),String.fromCodePoint(0x309e),String.fromCodePoint(0x309f)];
+    const rainChars = filterTofu(charsRaw, fontStack);
+    const canvas = document.getElementById('matrixCanvas');
+    const ctx = canvas.getContext('2d');
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    let fontSize = 32;
+    let columns = Math.floor(width / fontSize);
+    let drops = Array(columns).fill(1);
+    function resizeCanvas() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+      columns = Math.floor(width / fontSize);
+      drops = Array(columns).fill(1);
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    function draw() {
+      ctx.fillStyle = 'rgba(0,0,0,0.08)';
+      ctx.fillRect(0, 0, width, height);
+      ctx.font = fontSize + 'px ' + fontStack;
+      ctx.fillStyle = '#0f0';
+      for (let i = 0; i < columns; i++) {
+        const text = rainChars[Math.floor(Math.random() * rainChars.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+    setInterval(draw, 50);
+  </script>
+</body>
+</html>

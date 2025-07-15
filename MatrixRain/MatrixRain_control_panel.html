@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matrix Rain — Control Panel Edition</title>
+  <style>
+    body { background: #000; color: #0F0; margin: 0; font-family: sans-serif; }
+    #matrixCanvas { display: block; margin: 0 auto; background: #000; }
+    #control-panel {
+      position: fixed; top: 10px; left: 10px; background: rgba(0,0,0,0.85); color: #0F0; padding: 16px 24px; border-radius: 8px; z-index: 10;
+      box-shadow: 0 2px 12px #000b;
+    }
+    #control-panel label { display: block; margin: 8px 0 4px 0; }
+    #control-panel input, #control-panel select {
+      background: #111; color: #0F0; border: 1px solid #222; border-radius: 4px; padding: 2px 6px; margin-right: 6px;
+    }
+    #control-panel input[type="color"] {
+      padding: 0; border: none; width: 32px; height: 24px;
+    }
+    #control-panel button { background: #222; color: #0F0; border: 1px solid #0F0; border-radius: 4px; padding: 4px 12px; margin-top: 8px; cursor: pointer; }
+    #control-panel button:hover { background: #0F0; color: #000; }
+
+    /* Klingon pIqaD fonts (user must provide TTF files in the same directory) */
+    @font-face {
+      font-family: 'KlingonPiqadPUA';
+      src: url('Klingon-pIqaD-PUA.ttf') format('truetype');
+      unicode-range: U+F8D0-F8FF;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'KlingonPiqadHaSta';
+      src: url('Klingon-pIqaD-HaSta.ttf') format('truetype');
+      unicode-range: U+F8D0-F8FF;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'KlingonPiqadMandel';
+      src: url('Klingon-pIqaD-Mandel.ttf') format('truetype');
+      unicode-range: U+F8D0-F8FF;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'KlingonPiqadVaHbo';
+      src: url('Klingon-pIqaD-VaHbo.ttf') format('truetype');
+      unicode-range: U+F8D0-F8FF;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'CardassianStd';
+      src: url('CARDAS-1.TTF') format('truetype');
+      font-display: swap;
+    }
+  </style>
+  <!-- Google Fonts for Unicode script coverage -->
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Sundanese:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Balinese:400&display=swap" rel="stylesheet">
+  <!-- Noto Sans Makasar is not on Google Fonts as of 2025, but is included for future compatibility -->
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Braille:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Nastaliq+Urdu:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Arabic:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Canadian+Aboriginal:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Devanagari:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Tibetan:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Osage:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Lao:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Thai:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Khmer:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Myanmar:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Tamil:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Armenian:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Georgian:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Tifinagh:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Ethiopic:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Hebrew:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Bengali:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Gujarati:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Gurmukhi:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Malayalam:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Oriya:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Sinhala:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Cherokee:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Mongolian:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Glagolitic:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Runic:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Ogham:400&display=swap" rel="stylesheet">
+
+</head>
+<body>
+  <canvas id="matrixCanvas"></canvas>
+  <div id="control-panel">
+    <label>Script:
+      <select id="scriptSelector">
+        <option value="-1">(Select a script...)</option>
+      </select>
+    </label>
+    <label>Speed:
+      <input type="range" id="speedSlider" min="1" max="10" value="5">
+    </label>
+    <label>Color:
+      <input type="color" id="colorPicker" value="#00FF00">
+    </label>
+    <label>Secret Message:
+      <input type="text" id="secretMessage" placeholder="Leave blank for random rain">
+    </label>
+    <button id="applyMessage">Show Message</button>
+    <button id="fullscreenBtn">Fullscreen</button>
+  </div>
+  <script>
+    // --- Robust initialization: wait for DOMContentLoaded ---
+    // Declare draw at top level as a stub, to avoid accidental global calls
+    let draw = function(){};
+    window.addEventListener('DOMContentLoaded', function() {
+      try {
+        // --- Matrix Rain Variables (declare at the top!) ---
+        let rainSpeed = 5;
+        let rainColor = '#00FF00';
+        let selectedScript = 0;
+        let secretMessage = '';
+        let useSecret = false;
+        let fontSize = 28;
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+        let columns = Math.floor(width / fontSize);
+        let drops = Array(columns).fill(1);
+        let interval;
+        // --- Scripts array (copy from MatrixRain.html for full support) ---
+        const scripts = [
+          ["Hebrew", "'Noto Sans Hebrew', 'Noto Sans', sans-serif", [[0x0590, 0x05FF]]],
+          ["Yiddish", "'Noto Sans Hebrew', 'Noto Sans', sans-serif", [[0x0590, 0x05FF]]],
+          ["Farsi", "'Noto Nastaliq Urdu', 'Amiri', 'Noto Sans Arabic', 'Noto Sans', sans-serif", [[0x0600, 0x06FF], [0x0750, 0x077F], [0x08A0, 0x08FF]]],
+          ["Avestan", "'Noto Sans Avestan', 'Noto Sans', sans-serif", [[0x10B00, 0x10B3F]]],
+          ["Amazigh", "'Noto Sans Tifinagh', sans-serif", [[0x2D30, 0x2D7F]]],
+          ["Turkish", "Noto Sans, sans-serif", [[0x0021, 0x024F]]],
+          ["Azeri", "Noto Sans, sans-serif", [[0x0021, 0x024F]]],
+          ["Armenian", "'Noto Sans Armenian', sans-serif", [[0x0530, 0x058F]]],
+          ["Georgian", "'Noto Sans Georgian', sans-serif", [[0x10A0, 0x10FF]]],
+          ["Abkhaz", "Noto Sans, sans-serif", [[0x0400, 0x04FF]]],
+          ["Ukrainian", "Noto Sans, sans-serif", [[0x0400, 0x04FF]]],
+          ["Nenets", "Noto Sans, sans-serif", [[0x0400, 0x04FF]]],
+          ["Lao", "'Noto Sans Lao', sans-serif", [[0x0E80, 0x0EFF]]],
+          ["Thai", "'Noto Sans Thai', sans-serif", [[0x0E00, 0x0E7F]]],
+          ["Khmer", "'Noto Sans Khmer', sans-serif", [[0x1780, 0x17FF]]],
+          ["Burmese", "'Noto Sans Myanmar', sans-serif", [[0x1000, 0x109F]]],
+          ["Tamil", "'Noto Sans Tamil', sans-serif", [[0x0B80, 0x0BFF]]],
+          ["Icelandic", "Noto Sans, sans-serif", [[0x0021, 0x024F]]],
+          ["Faroese", "Noto Sans, sans-serif", [[0x0021, 0x024F]]],
+          ["Osage", "'Noto Sans Osage', sans-serif", [[0x104B0, 0x104FF]]],
+          ["Inuit", "'Noto Sans Canadian Aboriginal', sans-serif", [[0x1400, 0x167F]]],
+          ["Nepalese", "'Noto Sans Devanagari', sans-serif", [[0x0900, 0x097F]]],
+          ["Sanskrit", "'Noto Sans Devanagari', sans-serif", [[0x0900, 0x097F]]],
+          ["Bhutanese", "'Noto Sans Tibetan', sans-serif", [[0x0F00, 0x0FFF]]],
+          ["French", "Noto Sans, sans-serif", [[0x0021, 0x024F]]],
+          ["Italian", "Noto Sans, sans-serif", [[0x0021, 0x024F]]],
+          ["German", "Noto Sans, sans-serif", [[0x0021, 0x024F]]],
+          ["Pashto", "'Noto Sans Arabic', 'Noto Nastaliq Urdu', 'Amiri', sans-serif", [[0x0600, 0x06FF], [0x0750, 0x077F], [0x08A0, 0x08FF]]],
+          ["Dari", "'Noto Sans Arabic', 'Noto Nastaliq Urdu', sans-serif", [[0x0600, 0x06FF]]],
+          ["Urdu", "'Noto Nastaliq Urdu', 'Noto Sans Arabic', sans-serif", [[0x0600, 0x06FF]]],
+          ["Klingon", "'KlingonPiqadPUA', 'KlingonPiqadHaSta', 'KlingonPiqadMandel', 'KlingonPiqadVaHbo', sans-serif", [[0xF8D0, 0xF8FF]]],
+          ["Cardassian", "'CardassianStd', sans-serif", [[0x0021, 0x007E]]],
+          // Modern Sundanese
+          ["Modern Sundanese", "'Noto Sans Sundanese', sans-serif", [[0x1B80, 0x1BBF]]],
+          // Old Sundanese (subset)
+          ["Old Sundanese", "'Noto Sans Sundanese', sans-serif", [[0x1CC0, 0x1CCF]]],
+          // Balinese
+          ["Balinese", "'Noto Sans Balinese', sans-serif", [[0x1B00, 0x1B7F]]],
+          // Makassanese (Makasar)
+          ["Makassanese (Makasar)", "'Noto Sans Makasar', sans-serif", [[0x11EE0, 0x11EFF]]],
+          ["Braille", "'Noto Sans Braille', sans-serif", [[0x2800, 0x28FF]]],
+          ["Latin", "Noto Sans, sans-serif", [[0x0021, 0x024F]]],
+          ["Greek", "Noto Sans, sans-serif", [[0x0370, 0x03FF]]],
+          ["Cyrillic", "Noto Sans, sans-serif", [[0x0400, 0x04FF]]],
+          ["Armenian", "'Noto Sans Armenian', sans-serif", [[0x0530, 0x058F]]],
+          ["Georgian", "'Noto Sans Georgian', sans-serif", [[0x10A0, 0x10FF]]],
+          ["Ethiopic", "'Noto Sans Ethiopic', sans-serif", [[0x1200, 0x137F]]],
+          ["Tifinagh", "'Noto Sans Tifinagh', sans-serif", [[0x2D30, 0x2D7F]]],
+          ["Hebrew", "'Noto Sans Hebrew', sans-serif", [[0x0590, 0x05FF]]],
+          ["Arabic", "'Noto Sans Arabic', sans-serif", [[0x0600, 0x06FF]]],
+          ["Bengali", "'Noto Sans Bengali', sans-serif", [[0x0980, 0x09FF]]],
+          ["Devanagari", "'Noto Sans Devanagari', sans-serif", [[0x0900, 0x097F]]],
+          ["Gurmukhi", "'Noto Sans Gurmukhi', sans-serif", [[0x0A00, 0x0A7F]]],
+          ["Gujarati", "'Noto Sans Gujarati', sans-serif", [[0x0A80, 0x0AFF]]],
+          ["Tamil", "'Noto Sans Tamil', sans-serif", [[0x0B80, 0x0BFF]]],
+          ["Telugu", "'Noto Sans Telugu', sans-serif", [[0x0C00, 0x0C7F]]],
+          ["Kannada", "'Noto Sans Kannada', sans-serif", [[0x0C80, 0x0CFF]]],
+          ["Malayalam", "'Noto Sans Malayalam', sans-serif", [[0x0D00, 0x0D7F]]],
+          ["Oriya", "'Noto Sans Oriya', sans-serif", [[0x0B00, 0x0B7F]]],
+          ["Sinhala", "'Noto Sans Sinhala', sans-serif", [[0x0D80, 0x0DFF]]],
+          ["Thai", "'Noto Sans Thai', sans-serif", [[0x0E00, 0x0E7F]]],
+          ["Lao", "'Noto Sans Lao', sans-serif", [[0x0E80, 0x0EFF]]],
+          ["Cherokee", "'Noto Sans Cherokee', sans-serif", [[0x13A0, 0x13FF]]],
+          ["Canadian Aboriginal", "'Noto Sans Canadian Aboriginal', sans-serif", [[0x1400, 0x167F]]],
+          ["Mongolian", "'Noto Sans Mongolian', sans-serif", [[0x1800, 0x18AF]]],
+          ["Glagolitic", "'Noto Sans Glagolitic', sans-serif", [[0x2C00, 0x2C5F]]],
+          ["Runic", "'Noto Sans Runic', sans-serif", [[0x16A0, 0x16FF]]],
+          ["Ogham", "'Noto Sans Ogham', sans-serif", [[0x1680, 0x169F]]],
+          // Use full Japanese font stack for Hiragana and Katakana
+          ["Hiragana", "Noto Sans JP, 'Hiragino Sans', 'Meiryo', sans-serif", [[0x3040, 0x309F]]],
+          ["Katakana", "Noto Sans JP, 'Hiragino Sans', 'Meiryo', sans-serif", [[0x30A0, 0x30FF]]],
+          // Japanese Kanji (U+4E00–U+9FFF) - font stack prioritizes Japanese
+          ["Japanese Kanji", "Noto Sans JP, Noto Sans SC, Noto Sans TC, Noto Sans KR, 'Hiragino Sans', 'Meiryo', sans-serif", [[0x4E00, 0x9FFF]]],
+          // Chinese Hanzi (U+4E00–U+9FFF) - font stack prioritizes Simplified Chinese
+          ["Chinese Hanzi", "Noto Sans SC, Noto Sans TC, Noto Sans JP, Noto Sans KR, sans-serif", [[0x4E00, 0x9FFF]]],
+          // Korean Hangul
+          ["Korean Hangul", "Noto Sans KR, 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif", [[0xAC00, 0xD7AF]]],
+        ];
+
+        // --- Font-face declarations (copy from MatrixRain.html for full support) ---
+        // ... (for brevity, insert your @font-face rules here as needed)
+
+        // --- Matrix Rain Variables ---
+        // Debug: log canvas and control panel presence
+        const canvas = document.getElementById('matrixCanvas');
+        if (!canvas) console.error('Canvas not found!');
+        const ctx = canvas ? canvas.getContext('2d') : null;
+        if (!ctx) console.error('Canvas context not found!');
+        const controlPanel = document.getElementById('control-panel');
+        if (!controlPanel) console.error('Control panel not found!');
+
+        // --- Build per-script filtered glyph sets (MUST be before draw/setInterval) ---
+        const klingonPUAChars = [
+          ...[0xF8D0,0xF8D1,0xF8D2,0xF8D3,0xF8D4,0xF8D5,0xF8D6,0xF8D7,0xF8D8,0xF8D9,0xF8DA,0xF8DB,0xF8DC,0xF8DD,0xF8DE,0xF8DF,
+              0xF8E0,0xF8E1,0xF8E2,0xF8E3,0xF8E4,0xF8E5,0xF8E6,0xF8E7,0xF8E8,0xF8E9,0xF8EA,0xF8EB,0xF8EC,0xF8EE,0xF8EF,0xF8F0,
+              0xF8F1,0xF8F2,0xF8F3,0xF8F4,0xF8F5,0xF8F6,0xF8F7,0xF8F8,0xF8F9,0xF8FA,0xF8FB,0xF8FC,0xF8FD,0xF8FE,0xF8FF]
+            .map(cp => String.fromCharCode(cp))
+        ];
+        const scriptData = scripts.map(([name, font, ranges]) => {
+          if (name === "Klingon") {
+            return {
+              name,
+              font,
+              chars: klingonPUAChars
+            };
+          } else if (name === "Cardassian") {
+            let chars = filterTofu(Array.from({length: 0x007E-0x0021+1}, (_,i)=>String.fromCharCode(0x0021+i)), font);
+            return { name, font, chars };
+          } else if (name === "Hebrew" || name === "Yiddish") {
+            let chars = filterTofu(Array.from({length: 0x05FF-0x0590+1}, (_,i)=>String.fromCharCode(0x0590+i)), font);
+            return { name, font, chars };
+          } else if (name === "Hiragana" || name === "Katakana" || name === "Japanese Kanji" || name === "Chinese Hanzi" || name === "Korean Hangul") {
+            let chars = [];
+            ranges.forEach(rg => {
+              for(let c=rg[0]; c<=rg[1]; ++c) {
+                const char = String.fromCharCode(c);
+                if (/\s/.test(char)) continue;
+                chars.push(char);
+              }
+            });
+            return { name, font, chars };
+          } else {
+            let chars = [];
+            ranges.forEach(rg => {
+              for(let c=rg[0]; c<=rg[1]; ++c) {
+                const char = String.fromCharCode(c);
+                if (/\s/.test(char)) continue;
+                chars.push(char);
+              }
+            });
+            chars = filterTofu(chars, font);
+            return { name, font, chars };
+          }
+        });
+
+        // --- Populate script dropdown ---
+        const scriptSelector = document.getElementById('scriptSelector');
+        if (!scriptSelector) {
+          console.error('Script selector dropdown not found in DOM');
+        } else {
+          scripts.forEach(([name], idx) => {
+            const opt = document.createElement('option');
+            opt.value = idx;
+            opt.textContent = name;
+            scriptSelector.appendChild(opt);
+          });
+          // Log the dropdown options for debugging
+          console.log('Dropdown options:', Array.from(scriptSelector.options).map(o => o.textContent));
+          console.log('Dropdown populated with', scripts.length, 'options.');
+        }
+
+        // --- Robust canvas resizing for TV/HDMI ---
+        function resizeMatrixCanvas() {
+          const dpr = window.devicePixelRatio || 1;
+          canvas.width = window.innerWidth * dpr;
+          canvas.height = window.innerHeight * dpr;
+          canvas.style.width = window.innerWidth + 'px';
+          canvas.style.height = window.innerHeight + 'px';
+          ctx.setTransform(1, 0, 0, 1, 0, 0); // reset transform
+          ctx.scale(dpr, dpr);
+          width = window.innerWidth;
+          height = window.innerHeight;
+          columns = Math.floor(width / fontSize);
+          drops = Array(columns).fill(1);
+        }
+
+        // --- Draw Loop (must be inside so it sees all vars) ---
+        draw = function() {
+          if (!scriptData[selectedScript] || !scriptData[selectedScript].chars || scriptData[selectedScript].chars.length === 0) {
+            console.error('No characters found for selected script:', selectedScript, scriptData[selectedScript]);
+            return;
+          }
+          ctx.fillStyle = 'rgba(0,0,0,0.05)';
+          ctx.fillRect(0,0,width,height);
+          ctx.font = fontSize + "px " + scriptData[selectedScript].font;
+          ctx.fillStyle = rainColor;
+          let chars = scriptData[selectedScript].chars;
+          for(let i=0; i<columns; i++) {
+            let text;
+            if(useSecret && secretMessage.length) {
+              text = secretMessage[(i + drops[i]) % secretMessage.length];
+            } else {
+              text = chars[Math.floor(Math.random()*chars.length)];
+            }
+            ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+            if(drops[i]*fontSize > height && Math.random() > 0.975) {
+              drops[i] = 0;
+            }
+            drops[i]++;
+          }
+        }
+
+
+        // --- Utility to filter out tofu (missing glyphs) for a given font ---
+        function filterTofu(chars, font) {
+          const testCanvas = document.createElement('canvas');
+          const testCtx = testCanvas.getContext('2d');
+          testCtx.font = `32px ${font}`;
+          const tofuWidth = testCtx.measureText('\u25A1').width;
+          return chars.filter(ch => {
+            if (!ch.match(/\P{C}/u)) return false;
+            testCtx.font = `32px ${font}`;
+            const w = testCtx.measureText(ch).width;
+            return w && Math.abs(w - tofuWidth) > 0.1;
+          });
+        }
+
+        function draw() {
+          if (!scriptData[selectedScript] || !scriptData[selectedScript].chars || scriptData[selectedScript].chars.length === 0) {
+            console.error('No characters found for selected script:', selectedScript, scriptData[selectedScript]);
+            return;
+          }
+          ctx.fillStyle = 'rgba(0,0,0,0.05)';
+          ctx.fillRect(0,0,width,height);
+          ctx.font = fontSize + "px " + scriptData[selectedScript].font;
+          ctx.fillStyle = rainColor;
+          let chars = scriptData[selectedScript].chars;
+          for(let i=0; i<columns; i++) {
+            let text;
+            if(useSecret && secretMessage.length) {
+              text = secretMessage[(i + drops[i]) % secretMessage.length];
+            } else {
+              text = chars[Math.floor(Math.random()*chars.length)];
+            }
+            ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+            if(drops[i]*fontSize > height && Math.random() > 0.975) {
+              drops[i] = 0;
+            }
+            drops[i]++;
+          }
+        }
+
+        interval = setInterval(draw, 1000/(rainSpeed*2));
+
+        // --- Control Panel Logic ---
+        scriptSelector.addEventListener('change', e => {
+          selectedScript = +e.target.value;
+          ctx.font = fontSize + "px " + scripts[selectedScript][1];
+        });
+        document.getElementById('speedSlider').addEventListener('input', e => {
+          rainSpeed = +e.target.value;
+          clearInterval(interval);
+          interval = setInterval(draw, 1000/(rainSpeed*2));
+        });
+        document.getElementById('colorPicker').addEventListener('input', e => {
+          rainColor = e.target.value;
+        });
+        document.getElementById('applyMessage').addEventListener('click', () => {
+          secretMessage = document.getElementById('secretMessage').value;
+          useSecret = !!secretMessage.length;
+        });
+        document.getElementById('fullscreenBtn').addEventListener('click', () => {
+          if(canvas.requestFullscreen) canvas.requestFullscreen();
+          else if(canvas.webkitRequestFullscreen) canvas.webkitRequestFullscreen();
+        });
+
+        // --- Responsive Resize ---
+        window.addEventListener('resize', () => {
+          width = window.innerWidth;
+          height = window.innerHeight;
+          canvas.width = width;
+          canvas.height = height;
+          columns = Math.floor(width / fontSize);
+          drops = Array(columns).fill(1);
+        });
+      } catch (e) {
+        console.error('Error initializing Matrix Rain:', e);
+      }
+    });
+    document.getElementById('applyMessage').addEventListener('click', () => {
+      secretMessage = document.getElementById('secretMessage').value;
+      useSecret = !!secretMessage.length;
+    });
+    document.getElementById('fullscreenBtn').addEventListener('click', () => {
+      if(canvas.requestFullscreen) canvas.requestFullscreen();
+      else if(canvas.webkitRequestFullscreen) canvas.webkitRequestFullscreen();
+    });
+
+    // --- Responsive Resize ---
+    window.addEventListener('resize', () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+      columns = Math.floor(width / fontSize);
+      drops = Array(columns).fill(1);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Matrix Rain - All Alphabets (Expanded)</title>
+  <style>
+    html, body {
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      background: black;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+      background: black;
+    }
+  /* Klingon pIqaD fonts (user must provide TTF files in the same directory) */
+  @font-face {
+    font-family: 'KlingonPiqadPUA';
+    src: url('Klingon-pIqaD-PUA.ttf') format('truetype');
+    unicode-range: U+F8D0-F8FF;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'KlingonPiqadHaSta';
+    src: url('Klingon-pIqaD-HaSta.ttf') format('truetype');
+    unicode-range: U+F8D0-F8FF;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'KlingonPiqadMandel';
+    src: url('Klingon-pIqaD-Mandel.ttf') format('truetype');
+    unicode-range: U+F8D0-F8FF;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'KlingonPiqadVaHbo';
+    src: url('Klingon-pIqaD-VaHbo.ttf') format('truetype');
+    unicode-range: U+F8D0-F8FF;
+    font-display: swap;
+  }
+    @font-face {
+    font-family: 'CardassianStd';
+    src: url('CARDAS-1.TTF') format('truetype');
+    font-display: swap;
+  }
+</style>
+  <!-- Google Fonts for Unicode script coverage -->
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Sundanese:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Braille:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Nastaliq+Urdu:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Arabic:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Canadian+Aboriginal:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Devanagari:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Tibetan:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Osage:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Lao:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Thai:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Khmer:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Myanmar:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Tamil:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Armenian:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Georgian:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Tifinagh:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Ethiopic:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Hebrew:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Arabic:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Bengali:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Devanagari:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Gurmukhi:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Gujarati:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Tamil:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Telugu:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Kannada:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Malayalam:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Oriya:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Sinhala:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Thai:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Lao:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Cherokee:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Canadian+Aboriginal:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Mongolian:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Glagolitic:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Runic:400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Ogham:400&display=swap" rel="stylesheet">
+  <!-- Add more Noto fonts as needed for additional scripts -->
+  <!-- Ornate Arabic fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+</head>
+<body>
+<canvas id="matrix"></canvas>
+<script>
+const scripts = [
+  // Hebrew (including Yiddish)
+  ["Hebrew", "'Noto Sans Hebrew', 'Noto Sans', sans-serif", [[0x0590, 0x05FF]]],
+  ["Yiddish", "'Noto Sans Hebrew', 'Noto Sans', sans-serif", [[0x0590, 0x05FF]]],
+  // Farsi (Persian, Arabic script)
+  ["Farsi", "'Noto Nastaliq Urdu', 'Amiri', 'Noto Sans Arabic', 'Noto Sans', sans-serif", [[0x0600, 0x06FF], [0x0750, 0x077F], [0x08A0, 0x08FF]]],
+  // Avestan
+  ["Avestan", "'Noto Sans Avestan', 'Noto Sans', sans-serif", [[0x10B00, 0x10B3F]]],
+  // Amazigh (Tifinagh)
+  ["Amazigh", "'Noto Sans Tifinagh', sans-serif", [[0x2D30, 0x2D7F]]],
+  // Turkish (Latin)
+  ["Turkish", "Noto Sans, sans-serif", [[0x0021, 0x024F]]],
+  // Azeri (Latin)
+  ["Azeri", "Noto Sans, sans-serif", [[0x0021, 0x024F]]],
+  // Armenian
+  ["Armenian", "'Noto Sans Armenian', sans-serif", [[0x0530, 0x058F]]],
+  // Georgian
+  ["Georgian", "'Noto Sans Georgian', sans-serif", [[0x10A0, 0x10FF]]],
+  // Abkhaz (Cyrillic)
+  ["Abkhaz", "Noto Sans, sans-serif", [[0x0400, 0x04FF]]],
+  // Ukrainian (Cyrillic)
+  ["Ukrainian", "Noto Sans, sans-serif", [[0x0400, 0x04FF]]],
+  // Nenets (Cyrillic)
+  ["Nenets", "Noto Sans, sans-serif", [[0x0400, 0x04FF]]],
+  // Lao
+  ["Lao", "'Noto Sans Lao', sans-serif", [[0x0E80, 0x0EFF]]],
+  // Thai
+  ["Thai", "'Noto Sans Thai', sans-serif", [[0x0E00, 0x0E7F]]],
+  // Khmer
+  ["Khmer", "'Noto Sans Khmer', sans-serif", [[0x1780, 0x17FF]]],
+  // Burmese (Myanmar)
+  ["Burmese", "'Noto Sans Myanmar', sans-serif", [[0x1000, 0x109F]]],
+  // Tamil
+  ["Tamil", "'Noto Sans Tamil', sans-serif", [[0x0B80, 0x0BFF]]],
+  // Icelandic (Latin)
+  ["Icelandic", "Noto Sans, sans-serif", [[0x0021, 0x024F]]],
+  // Faroese (Latin)
+  ["Faroese", "Noto Sans, sans-serif", [[0x0021, 0x024F]]],
+  // Osage (Osage block)
+  ["Osage", "'Noto Sans Osage', sans-serif", [[0x104B0, 0x104FF]]],
+  // Inuit (Canadian Aboriginal Syllabics)
+  ["Inuit", "'Noto Sans Canadian Aboriginal', sans-serif", [[0x1400, 0x167F]]],
+  // Nepalese (Devanagari)
+  ["Nepalese", "'Noto Sans Devanagari', sans-serif", [[0x0900, 0x097F]]],
+  // Sanskrit (Devanagari)
+  ["Sanskrit", "'Noto Sans Devanagari', sans-serif", [[0x0900, 0x097F]]],
+  // Bhutanese (Tibetan)
+  ["Bhutanese", "'Noto Sans Tibetan', sans-serif", [[0x0F00, 0x0FFF]]],
+  // French (Latin)
+  ["French", "Noto Sans, sans-serif", [[0x0021, 0x024F]]],
+  // Italian (Latin)
+  ["Italian", "Noto Sans, sans-serif", [[0x0021, 0x024F]]],
+  // German (Latin)
+  ["German", "Noto Sans, sans-serif", [[0x0021, 0x024F]]],
+  // Pashto (Arabic Extended-A, Arabic block)
+  ["Pashto", "'Noto Sans Arabic', 'Noto Nastaliq Urdu', 'Amiri', sans-serif", [[0x0600, 0x06FF], [0x0750, 0x077F], [0x08A0, 0x08FF]]],
+  // Dari (Arabic block)
+  ["Dari", "'Noto Sans Arabic', 'Noto Nastaliq Urdu', sans-serif", [[0x0600, 0x06FF]]],
+  // Urdu (Arabic block, Nastaliq style preferred)
+  ["Urdu", "'Noto Nastaliq Urdu', 'Noto Sans Arabic', sans-serif", [[0x0600, 0x06FF]]],
+  // Klingon (Piqad, ISO-15924 Piqd/293, PUA: U+F8D0–U+F8FF)
+  ["Klingon", "'KlingonPiqadPUA', 'KlingonPiqadHaSta', 'KlingonPiqadMandel', 'KlingonPiqadVaHbo', sans-serif", [[0xF8D0, 0xF8FF]]],
+  // Cardassian (ASCII-mapped)
+  ["Cardassian", "'CardassianStd', sans-serif", [[0x0021, 0x007E]]],
+  // Sundanese
+  ["Sundanese", "'Noto Sans Sundanese', sans-serif", [[0x1B80, 0x1BBF]]],
+  // Braille
+  ["Braille", "'Noto Sans Braille', sans-serif", [[0x2800, 0x28FF]]],
+  // Klingon (Piqad, ISO-15924 Piqd/293, PUA: U+F8D0–U+F8FF)
+  ["Klingon", "'KlingonPiqadHaSta', 'KlingonPiqadMandel', 'KlingonPiqadVaHbo', sans-serif", [[0xF8D0, 0xF8FF]]],
+  ["Latin", "Noto Sans, sans-serif", [[0x0021, 0x024F]]],
+  ["Greek", "Noto Sans, sans-serif", [[0x0370, 0x03FF]]],
+  ["Cyrillic", "Noto Sans, sans-serif", [[0x0400, 0x04FF]]],
+  ["Armenian", "'Noto Sans Armenian', sans-serif", [[0x0530, 0x058F]]],
+  ["Georgian", "'Noto Sans Georgian', sans-serif", [[0x10A0, 0x10FF]]],
+  ["Ethiopic", "'Noto Sans Ethiopic', sans-serif", [[0x1200, 0x137F]]],
+  ["Tifinagh", "'Noto Sans Tifinagh', sans-serif", [[0x2D30, 0x2D7F]]],
+  ["Hebrew", "'Noto Sans Hebrew', sans-serif", [[0x0590, 0x05FF]]],
+  ["Arabic", "'Noto Sans Arabic', sans-serif", [[0x0600, 0x06FF]]],
+  ["Bengali", "'Noto Sans Bengali', sans-serif", [[0x0980, 0x09FF]]],
+  ["Devanagari", "'Noto Sans Devanagari', sans-serif", [[0x0900, 0x097F]]],
+  ["Gurmukhi", "'Noto Sans Gurmukhi', sans-serif", [[0x0A00, 0x0A7F]]],
+  ["Gujarati", "'Noto Sans Gujarati', sans-serif", [[0x0A80, 0x0AFF]]],
+  ["Tamil", "'Noto Sans Tamil', sans-serif", [[0x0B80, 0x0BFF]]],
+  ["Telugu", "'Noto Sans Telugu', sans-serif", [[0x0C00, 0x0C7F]]],
+  ["Kannada", "'Noto Sans Kannada', sans-serif", [[0x0C80, 0x0CFF]]],
+  ["Malayalam", "'Noto Sans Malayalam', sans-serif", [[0x0D00, 0x0D7F]]],
+  ["Oriya", "'Noto Sans Oriya', sans-serif", [[0x0B00, 0x0B7F]]],
+  ["Sinhala", "'Noto Sans Sinhala', sans-serif", [[0x0D80, 0x0DFF]]],
+  ["Thai", "'Noto Sans Thai', sans-serif", [[0x0E00, 0x0E7F]]],
+  ["Lao", "'Noto Sans Lao', sans-serif", [[0x0E80, 0x0EFF]]],
+  ["Cherokee", "'Noto Sans Cherokee', sans-serif", [[0x13A0, 0x13FF]]],
+  ["Canadian Aboriginal", "'Noto Sans Canadian Aboriginal', sans-serif", [[0x1400, 0x167F]]],
+  ["Mongolian", "'Noto Sans Mongolian', sans-serif", [[0x1800, 0x18AF]]],
+  ["Glagolitic", "'Noto Sans Glagolitic', sans-serif", [[0x2C00, 0x2C5F]]],
+  ["Runic", "'Noto Sans Runic', sans-serif", [[0x16A0, 0x16FF]]],
+  ["Ogham", "'Noto Sans Ogham', sans-serif", [[0x1680, 0x169F]]],
+  // CJK (Japanese, Chinese, Korean)
+  ["Hiragana", "Noto Sans JP, 'Hiragino Sans', 'Meiryo', sans-serif", [[0x3040, 0x309F]]],
+  ["Katakana", "Noto Sans JP, 'Hiragino Sans', 'Meiryo', sans-serif", [[0x30A0, 0x30FF]]],
+  ["CJK", "Noto Sans SC, Noto Sans TC, Noto Sans JP, Noto Sans KR, sans-serif", [[0x4E00, 0x9FFF]]],
+  ["Korean Hangul", "Noto Sans KR, 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif", [[0xAC00, 0xD7AF]]],
+];
+
+function getCharsForScript(ranges) {
+  const chars = [];
+  ranges.forEach(([start, end]) => {
+    for (let code = start; code <= end; code++) {
+      const char = String.fromCharCode(code);
+      if (/[\s]/.test(char)) continue;
+      chars.push(char);
+    }
+  });
+  return chars;
+}
+
+// Build per-script char sets (filtering out non-printable)
+const klingonPUAChars = [
+  ...[0xF8D0,0xF8D1,0xF8D2,0xF8D3,0xF8D4,0xF8D5,0xF8D6,0xF8D7,0xF8D8,0xF8D9,0xF8DA,0xF8DB,0xF8DC,0xF8DD,0xF8DE,0xF8DF,
+      0xF8E0,0xF8E1,0xF8E2,0xF8E3,0xF8E4,0xF8E5,0xF8E6,0xF8E7,0xF8E8,0xF8E9,0xF8EA,0xF8EB,0xF8EC,0xF8EE,0xF8EF,0xF8F0,
+      0xF8F1,0xF8F2,0xF8F3,0xF8F4,0xF8F5,0xF8F6,0xF8F7,0xF8F8,0xF8F9,0xF8FA,0xF8FB,0xF8FC,0xF8FD,0xF8FE,0xF8FF]
+    .map(cp => String.fromCharCode(cp))
+];
+// Utility to filter out tofu (missing glyphs) for a given font
+function filterTofu(chars, font) {
+  // Use a hidden canvas for measurement
+  const testCanvas = document.createElement('canvas');
+  const testCtx = testCanvas.getContext('2d');
+  testCtx.font = `32px ${font}`;
+  // Reference tofu width (from a known missing glyph)
+  const tofuWidth = testCtx.measureText('\u{25A1}').width; // White square
+  return chars.filter(ch => {
+    // Skip control/non-printable
+    if (!ch.match(/\P{C}/u)) return false;
+    testCtx.font = `32px ${font}`;
+    const w = testCtx.measureText(ch).width;
+    // If width is different from tofu, assume glyph is present
+    return w && Math.abs(w - tofuWidth) > 0.1;
+  });
+}
+
+const scriptData = scripts.map(([name, font, ranges]) => {
+  if (name === "Klingon") {
+    return {
+      name,
+      font,
+      chars: klingonPUAChars
+    };
+  }
+  // For Arabic, prioritize ornate fonts
+  if (name === "Arabic") {
+    const arabicFonts = "'Noto Nastaliq Urdu', 'Amiri', 'Noto Sans Arabic', sans-serif";
+    const chars = filterTofu(getCharsForScript(ranges), arabicFonts);
+    return { name, font: arabicFonts, chars };
+  }
+  // For all others, filter tofu and blank glyphs
+  const chars = filterTofu(getCharsForScript(ranges), font).filter(ch => ch.trim() !== '');
+  return { name, font, chars };
+});
+
+const fontSize = 26;
+let canvas = document.getElementById('matrix');
+let ctx = canvas.getContext('2d');
+let width = window.innerWidth;
+let height = window.innerHeight;
+canvas.width = width;
+canvas.height = height;
+
+let columns = Math.floor(width / fontSize);
+let drops = Array(columns).fill(1);
+let dropScripts = Array(columns).fill(0).map(() => Math.floor(Math.random() * scriptData.length));
+// Force first 5 columns to Cardassian for testing
+const cardassianIdx = scriptData.findIndex(s => s.name === "Cardassian");
+for (let i = 0; i < Math.min(5, columns); i++) {
+  dropScripts[i] = cardassianIdx;
+}
+
+
+function draw() {
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+  ctx.fillRect(0, 0, width, height);
+
+  // Setup a tofu reference width for all scripts
+  const tofuTestCanvas = document.createElement('canvas');
+  const tofuTestCtx = tofuTestCanvas.getContext('2d');
+  tofuTestCtx.font = `${fontSize}px 'KlingonPiqadPUA', 'Noto Sans', sans-serif`;
+  const tofuWidth = tofuTestCtx.measureText('\u25A1').width;
+
+  for (let i = 0; i < columns; i++) {
+    const scriptIdx = dropScripts[i];
+    const script = scriptData[scriptIdx];
+    const { name, chars } = script;
+    if (chars.length === 0) continue;
+    let font = script.font;
+    ctx.font = `${fontSize}px ${font}, sans-serif`;
+    ctx.fillStyle = "#0F0";
+    let text, w = 0, tries = 0;
+    do {
+      text = chars[Math.floor(Math.random() * chars.length)];
+      w = ctx.measureText(text).width;
+      tries++;
+    } while ((w === 0 || Math.abs(w - tofuWidth) < 0.1) && tries < 5);
+    if (w === 0 || Math.abs(w - tofuWidth) < 0.1) continue;
+    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+    if (drops[i] * fontSize > height && Math.random() > 0.975) {
+      drops[i] = 0;
+    }
+    drops[i]++;
+  }
+}
+
+setInterval(draw, 70);
+
+window.addEventListener('resize', () => {
+  width = window.innerWidth;
+  height = window.innerHeight;
+  canvas.width = width;
+  canvas.height = height;
+  columns = Math.floor(width / fontSize);
+  drops = Array(columns).fill(1);
+  dropScripts = Array(columns).fill(0).map(() => Math.floor(Math.random() * scriptData.length));
+});
+</script>
+</body>
+</html>

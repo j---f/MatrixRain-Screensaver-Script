@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MatrixRain - Thai</title>
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+Thai:400&display=swap" rel="stylesheet">
+  <style>
+    
+    body { margin: 0; background: #000; overflow: hidden; }
+    #matrixCanvas { display: block; width: 100vw; height: 100vh; background: #000; }
+    #rainLabel {
+      position: absolute; top: 10px; left: 10px; z-index: 10;
+      background: rgba(0,0,0,0.7); color: #0f0; font-size: 2em; padding: 8px 16px; border-radius: 8px;
+      font-family: 'Noto Sans Thai', sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div id="rainLabel">Thai</div>
+  <canvas id="matrixCanvas"></canvas>
+  <script>
+    function filterTofu(chars, font) {
+      const size = 40;
+      const testCanvas = document.createElement('canvas');
+      testCanvas.width = size;
+      testCanvas.height = size;
+      const ctx = testCanvas.getContext('2d');
+      ctx.textBaseline = 'top';
+      ctx.font = size + 'px ' + font;
+      ctx.clearRect(0, 0, size, size);
+      ctx.fillText('\u25A1', 0, 0);
+      const tofuData = ctx.getImageData(0, 0, size, size).data;
+      ctx.clearRect(0, 0, size, size);
+      const blankData = ctx.getImageData(0, 0, size, size).data;
+      function isSame(a, b) {
+        for (let i = 0; i < a.length; i++) if (a[i] != b[i]) return false;
+        return true;
+      }
+      return chars.filter(ch => {
+        if (/\s/.test(ch)) return false;
+        ctx.clearRect(0, 0, size, size);
+        ctx.fillText(ch, 0, 0);
+        const glyphData = ctx.getImageData(0, 0, size, size).data;
+        return !isSame(glyphData, tofuData) && !isSame(glyphData, blankData);
+      });
+    }
+    const fontStack = "'Noto Sans Thai', sans-serif";
+    let charsRaw = [String.fromCodePoint(0xe00),String.fromCodePoint(0xe01),String.fromCodePoint(0xe02),String.fromCodePoint(0xe03),String.fromCodePoint(0xe04),String.fromCodePoint(0xe05),String.fromCodePoint(0xe06),String.fromCodePoint(0xe07),String.fromCodePoint(0xe08),String.fromCodePoint(0xe09),String.fromCodePoint(0xe0a),String.fromCodePoint(0xe0b),String.fromCodePoint(0xe0c),String.fromCodePoint(0xe0d),String.fromCodePoint(0xe0e),String.fromCodePoint(0xe0f),String.fromCodePoint(0xe10),String.fromCodePoint(0xe11),String.fromCodePoint(0xe12),String.fromCodePoint(0xe13),String.fromCodePoint(0xe14),String.fromCodePoint(0xe15),String.fromCodePoint(0xe16),String.fromCodePoint(0xe17),String.fromCodePoint(0xe18),String.fromCodePoint(0xe19),String.fromCodePoint(0xe1a),String.fromCodePoint(0xe1b),String.fromCodePoint(0xe1c),String.fromCodePoint(0xe1d),String.fromCodePoint(0xe1e),String.fromCodePoint(0xe1f),String.fromCodePoint(0xe20),String.fromCodePoint(0xe21),String.fromCodePoint(0xe22),String.fromCodePoint(0xe23),String.fromCodePoint(0xe24),String.fromCodePoint(0xe25),String.fromCodePoint(0xe26),String.fromCodePoint(0xe27),String.fromCodePoint(0xe28),String.fromCodePoint(0xe29),String.fromCodePoint(0xe2a),String.fromCodePoint(0xe2b),String.fromCodePoint(0xe2c),String.fromCodePoint(0xe2d),String.fromCodePoint(0xe2e),String.fromCodePoint(0xe2f),String.fromCodePoint(0xe30),String.fromCodePoint(0xe31),String.fromCodePoint(0xe32),String.fromCodePoint(0xe33),String.fromCodePoint(0xe34),String.fromCodePoint(0xe35),String.fromCodePoint(0xe36),String.fromCodePoint(0xe37),String.fromCodePoint(0xe38),String.fromCodePoint(0xe39),String.fromCodePoint(0xe3a),String.fromCodePoint(0xe3b),String.fromCodePoint(0xe3c),String.fromCodePoint(0xe3d),String.fromCodePoint(0xe3e),String.fromCodePoint(0xe3f),String.fromCodePoint(0xe40),String.fromCodePoint(0xe41),String.fromCodePoint(0xe42),String.fromCodePoint(0xe43),String.fromCodePoint(0xe44),String.fromCodePoint(0xe45),String.fromCodePoint(0xe46),String.fromCodePoint(0xe47),String.fromCodePoint(0xe48),String.fromCodePoint(0xe49),String.fromCodePoint(0xe4a),String.fromCodePoint(0xe4b),String.fromCodePoint(0xe4c),String.fromCodePoint(0xe4d),String.fromCodePoint(0xe4e),String.fromCodePoint(0xe4f),String.fromCodePoint(0xe50),String.fromCodePoint(0xe51),String.fromCodePoint(0xe52),String.fromCodePoint(0xe53),String.fromCodePoint(0xe54),String.fromCodePoint(0xe55),String.fromCodePoint(0xe56),String.fromCodePoint(0xe57),String.fromCodePoint(0xe58),String.fromCodePoint(0xe59),String.fromCodePoint(0xe5a),String.fromCodePoint(0xe5b),String.fromCodePoint(0xe5c),String.fromCodePoint(0xe5d),String.fromCodePoint(0xe5e),String.fromCodePoint(0xe5f),String.fromCodePoint(0xe60),String.fromCodePoint(0xe61),String.fromCodePoint(0xe62),String.fromCodePoint(0xe63),String.fromCodePoint(0xe64),String.fromCodePoint(0xe65),String.fromCodePoint(0xe66),String.fromCodePoint(0xe67),String.fromCodePoint(0xe68),String.fromCodePoint(0xe69),String.fromCodePoint(0xe6a),String.fromCodePoint(0xe6b),String.fromCodePoint(0xe6c),String.fromCodePoint(0xe6d),String.fromCodePoint(0xe6e),String.fromCodePoint(0xe6f),String.fromCodePoint(0xe70),String.fromCodePoint(0xe71),String.fromCodePoint(0xe72),String.fromCodePoint(0xe73),String.fromCodePoint(0xe74),String.fromCodePoint(0xe75),String.fromCodePoint(0xe76),String.fromCodePoint(0xe77),String.fromCodePoint(0xe78),String.fromCodePoint(0xe79),String.fromCodePoint(0xe7a),String.fromCodePoint(0xe7b),String.fromCodePoint(0xe7c),String.fromCodePoint(0xe7d),String.fromCodePoint(0xe7e),String.fromCodePoint(0xe7f)];
+    const rainChars = filterTofu(charsRaw, fontStack);
+    const canvas = document.getElementById('matrixCanvas');
+    const ctx = canvas.getContext('2d');
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    let fontSize = 32;
+    let columns = Math.floor(width / fontSize);
+    let drops = Array(columns).fill(1);
+    function resizeCanvas() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+      columns = Math.floor(width / fontSize);
+      drops = Array(columns).fill(1);
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    function draw() {
+      ctx.fillStyle = 'rgba(0,0,0,0.08)';
+      ctx.fillRect(0, 0, width, height);
+      ctx.font = fontSize + 'px ' + fontStack;
+      ctx.fillStyle = '#0f0';
+      for (let i = 0; i < columns; i++) {
+        const text = rainChars[Math.floor(Math.random() * rainChars.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+    setInterval(draw, 50);
+  </script>
+</body>
+</html>

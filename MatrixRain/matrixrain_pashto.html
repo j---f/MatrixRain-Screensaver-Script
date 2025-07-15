@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Matrix Rain - Pashto</title>
+  <style>
+    html, body { width: 100vw; height: 100vh; margin: 0; padding: 0; background: black; overflow: hidden; }
+    canvas { display: block; width: 100vw; height: 100vh; background: black; }
+    @font-face {
+      font-family: 'KlingonPiqadPUA';
+      src: url('Klingon-pIqaD-PUA.ttf') format('truetype');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'CardassianStd';
+      src: url('CARDAS-1.TTF') format('truetype');
+      font-display: swap;
+    }
+  </style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+<script>
+const fontSize = 26;
+let canvas = document.getElementById('matrix');
+let ctx = canvas.getContext('2d');
+let width = window.innerWidth;
+let height = window.innerHeight;
+canvas.width = width;
+canvas.height = height;
+let columns = Math.floor(width / fontSize);
+let drops = Array(columns).fill(1);
+const chars = ["؀","؁","؂","؃","؄","؅","؆","؇","؈","؉","؊","؋","،","؍","؎","؏","ؐ","ؑ","ؒ","ؓ","ؔ","ؕ","ؖ","ؗ","ؘ","ؙ","ؚ","؛","؜","؝","؞","؟","ؠ","ء","آ","أ","ؤ","إ","ئ","ا","ب","ة","ت","ث","ج","ح","خ","د","ذ","ر","ز","س","ش","ص","ض","ط","ظ","ع","غ","ػ","ؼ","ؽ","ؾ","ؿ","ـ","ف","ق","ك","ل","م","ن","ه","و","ى","ي","ً","ٌ","ٍ","َ","ُ","ِ","ّ","ْ","ٓ","ٔ","ٕ","ٖ","ٗ","٘","ٙ","ٚ","ٛ","ٜ","ٝ","ٞ","ٟ","٠","١","٢","٣","٤","٥","٦","٧","٨","٩","٪","٫","٬","٭","ٮ","ٯ","ٰ","ٱ","ٲ","ٳ","ٴ","ٵ","ٶ","ٷ","ٸ","ٹ","ٺ","ٻ","ټ","ٽ","پ","ٿ","ڀ","ځ","ڂ","ڃ","ڄ","څ","چ","ڇ","ڈ","ډ","ڊ","ڋ","ڌ","ڍ","ڎ","ڏ","ڐ","ڑ","ڒ","ړ","ڔ","ڕ","ږ","ڗ","ژ","ڙ","ښ","ڛ","ڜ","ڝ","ڞ","ڟ","ڠ","ڡ","ڢ","ڣ","ڤ","ڥ","ڦ","ڧ","ڨ","ک","ڪ","ګ","ڬ","ڭ","ڮ","گ","ڰ","ڱ","ڲ","ڳ","ڴ","ڵ","ڶ","ڷ","ڸ","ڹ","ں","ڻ","ڼ","ڽ","ھ","ڿ","ۀ","ہ","ۂ","ۃ","ۄ","ۅ","ۆ","ۇ","ۈ","ۉ","ۊ","ۋ","ی","ۍ","ێ","ۏ","ې","ۑ","ے","ۓ","۔","ە","ۖ","ۗ","ۘ","ۙ","ۚ","ۛ","ۜ","۝","۞","۟","۠","ۡ","ۢ","ۣ","ۤ","ۥ","ۦ","ۧ","ۨ","۩","۪","۫","۬","ۭ","ۮ","ۯ","۰","۱","۲","۳","۴","۵","۶","۷","۸","۹","ۺ","ۻ","ۼ","۽","۾","ۿ","ݐ","ݑ","ݒ","ݓ","ݔ","ݕ","ݖ","ݗ","ݘ","ݙ","ݚ","ݛ","ݜ","ݝ","ݞ","ݟ","ݠ","ݡ","ݢ","ݣ","ݤ","ݥ","ݦ","ݧ","ݨ","ݩ","ݪ","ݫ","ݬ","ݭ","ݮ","ݯ","ݰ","ݱ","ݲ","ݳ","ݴ","ݵ","ݶ","ݷ","ݸ","ݹ","ݺ","ݻ","ݼ","ݽ","ݾ","ݿ","ࢠ","ࢡ","ࢢ","ࢣ","ࢤ","ࢥ","ࢦ","ࢧ","ࢨ","ࢩ","ࢪ","ࢫ","ࢬ","ࢭ","ࢮ","ࢯ","ࢰ","ࢱ","ࢲ","ࢳ","ࢴ","ࢵ","ࢶ","ࢷ","ࢸ","ࢹ","ࢺ","ࢻ","ࢼ","ࢽ","ࢾ","ࢿ","ࣀ","ࣁ","ࣂ","ࣃ","ࣄ","ࣅ","ࣆ","ࣇ","ࣈ","ࣉ","࣊","࣋","࣌","࣍","࣎","࣏","࣐","࣑","࣒","࣓","ࣔ","ࣕ","ࣖ","ࣗ","ࣘ","ࣙ","ࣚ","ࣛ","ࣜ","ࣝ","ࣞ","ࣟ","࣠","࣡","࣢","ࣣ","ࣤ","ࣥ","ࣦ","ࣧ","ࣨ","ࣩ","࣪","࣫","࣬","࣭","࣮","࣯","ࣰ","ࣱ","ࣲ","ࣳ","ࣴ","ࣵ","ࣶ","ࣷ","ࣸ","ࣹ","ࣺ","ࣻ","ࣼ","ࣽ","ࣾ","ࣿ"];
+const font = "'Noto Sans Arabic', 'Noto Nastaliq Urdu', 'Amiri', sans-serif";
+function draw() {
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+  ctx.fillRect(0, 0, width, height);
+  for (let i = 0; i < columns; i++) {
+    ctx.font = fontSize + "px " + font;
+    ctx.fillStyle = "#0F0";
+    let text = chars[Math.floor(Math.random() * chars.length)];
+    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+    if (drops[i] * fontSize > height && Math.random() > 0.975) {
+      drops[i] = 0;
+    }
+    drops[i]++;
+  }
+}
+setInterval(draw, 70);
+window.addEventListener('resize', () => {
+  width = window.innerWidth;
+  height = window.innerHeight;
+  canvas.width = width;
+  canvas.height = height;
+  columns = Math.floor(width / fontSize);
+  drops = Array(columns).fill(1);
+});
+</script>
+</body>
+</html>

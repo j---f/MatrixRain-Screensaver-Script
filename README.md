@@ -25,6 +25,20 @@ The Klingon script (Piqad, ISO-15924 code Piqd/293) is included using the Privat
 
 **Note:** Without the font, Klingon characters will appear as tofu (empty squares).
 
+## Supported Scripts
+
+This project now supports a wide range of scripts, including:
+- Klingon (PUA)
+- Cardassian
+- Hebrew, Yiddish
+- Latin, Greek, Cyrillic, Armenian, Georgian, etc.
+- Japanese (Hiragana, Katakana, Kanji)
+- Chinese Hanzi
+- Korean Hangul
+- Modern Sundanese, Old Sundanese
+- Balinese
+- Makassanese (Makasar)
+
 ## Single-Alphabet Matrix Rain
 
 For research, font QA, and demo purposes, every supported script/alphabet has its own standalone Matrix Rain HTML file. These files render the rain effect using only one script at a time (e.g. only Klingon, only Cardassian, only Hebrew, etc.).
@@ -59,6 +73,15 @@ Visit the [Live Demo](https://j---f.github.io/MatrixRain-Screensaver-Script/) to
 
 ## Screenshots
 *Add screenshots here after first deployment*
+
+## Troubleshooting: HDMI/TV Usage
+
+If the Matrix Rain script is not loading or displaying when using an HDMI TV or external monitor:
+- Ensure your browser window is maximized or in fullscreen mode for best results.
+- The canvas now auto-resizes to fit any screen (including TVs and projectors).
+- Make sure all required font files are present and accessible. Some fonts (like Noto Sans Makasar) may not be available on Google Fonts yet.
+- If you see blank columns or no rain, try a hard refresh (Ctrl+Shift+R or Cmd+Shift+R) and check your browser's developer console for errors.
+- If you are using the file:// protocol, some browsers may block font loading. Try running a local web server.
 
 ## Credits
 - Inspired by the Matrix digital rain

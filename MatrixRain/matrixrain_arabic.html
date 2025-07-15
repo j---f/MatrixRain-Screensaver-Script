@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MatrixRain - Arabic</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic&display=swap" rel="stylesheet">
+  <style>
+    
+    body { margin: 0; background: #000; overflow: hidden; }
+    #matrixCanvas { display: block; width: 100vw; height: 100vh; background: #000; }
+    #rainLabel {
+      position: absolute; top: 10px; left: 10px; z-index: 10;
+      background: rgba(0,0,0,0.7); color: #0f0; font-size: 2em; padding: 8px 16px; border-radius: 8px;
+      font-family: 'Noto Sans Arabic', 'Noto Sans', sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <div id="rainLabel">Arabic</div>
+  <canvas id="matrixCanvas"></canvas>
+  <script>
+    function filterTofu(chars, font) {
+      const size = 40;
+      const testCanvas = document.createElement('canvas');
+      testCanvas.width = size;
+      testCanvas.height = size;
+      const ctx = testCanvas.getContext('2d');
+      ctx.textBaseline = 'top';
+      ctx.font = size + 'px ' + font;
+      ctx.clearRect(0, 0, size, size);
+      ctx.fillText('\u25A1', 0, 0);
+      const tofuData = ctx.getImageData(0, 0, size, size).data;
+      ctx.clearRect(0, 0, size, size);
+      const blankData = ctx.getImageData(0, 0, size, size).data;
+      function isSame(a, b) {
+        for (let i = 0; i < a.length; i++) if (a[i] != b[i]) return false;
+        return true;
+      }
+      return chars.filter(ch => {
+        if (/\s/.test(ch)) return false;
+        ctx.clearRect(0, 0, size, size);
+        ctx.fillText(ch, 0, 0);
+        const glyphData = ctx.getImageData(0, 0, size, size).data;
+        return !isSame(glyphData, tofuData) && !isSame(glyphData, blankData);
+      });
+    }
+    const fontStack = "'Noto Sans Arabic', 'Noto Sans', sans-serif";
+    let charsRaw = [String.fromCodePoint(0x600),String.fromCodePoint(0x601),String.fromCodePoint(0x602),String.fromCodePoint(0x603),String.fromCodePoint(0x604),String.fromCodePoint(0x605),String.fromCodePoint(0x606),String.fromCodePoint(0x607),String.fromCodePoint(0x608),String.fromCodePoint(0x609),String.fromCodePoint(0x60a),String.fromCodePoint(0x60b),String.fromCodePoint(0x60c),String.fromCodePoint(0x60d),String.fromCodePoint(0x60e),String.fromCodePoint(0x60f),String.fromCodePoint(0x610),String.fromCodePoint(0x611),String.fromCodePoint(0x612),String.fromCodePoint(0x613),String.fromCodePoint(0x614),String.fromCodePoint(0x615),String.fromCodePoint(0x616),String.fromCodePoint(0x617),String.fromCodePoint(0x618),String.fromCodePoint(0x619),String.fromCodePoint(0x61a),String.fromCodePoint(0x61b),String.fromCodePoint(0x61c),String.fromCodePoint(0x61d),String.fromCodePoint(0x61e),String.fromCodePoint(0x61f),String.fromCodePoint(0x620),String.fromCodePoint(0x621),String.fromCodePoint(0x622),String.fromCodePoint(0x623),String.fromCodePoint(0x624),String.fromCodePoint(0x625),String.fromCodePoint(0x626),String.fromCodePoint(0x627),String.fromCodePoint(0x628),String.fromCodePoint(0x629),String.fromCodePoint(0x62a),String.fromCodePoint(0x62b),String.fromCodePoint(0x62c),String.fromCodePoint(0x62d),String.fromCodePoint(0x62e),String.fromCodePoint(0x62f),String.fromCodePoint(0x630),String.fromCodePoint(0x631),String.fromCodePoint(0x632),String.fromCodePoint(0x633),String.fromCodePoint(0x634),String.fromCodePoint(0x635),String.fromCodePoint(0x636),String.fromCodePoint(0x637),String.fromCodePoint(0x638),String.fromCodePoint(0x639),String.fromCodePoint(0x63a),String.fromCodePoint(0x63b),String.fromCodePoint(0x63c),String.fromCodePoint(0x63d),String.fromCodePoint(0x63e),String.fromCodePoint(0x63f),String.fromCodePoint(0x640),String.fromCodePoint(0x641),String.fromCodePoint(0x642),String.fromCodePoint(0x643),String.fromCodePoint(0x644),String.fromCodePoint(0x645),String.fromCodePoint(0x646),String.fromCodePoint(0x647),String.fromCodePoint(0x648),String.fromCodePoint(0x649),String.fromCodePoint(0x64a),String.fromCodePoint(0x64b),String.fromCodePoint(0x64c),String.fromCodePoint(0x64d),String.fromCodePoint(0x64e),String.fromCodePoint(0x64f),String.fromCodePoint(0x650),String.fromCodePoint(0x651),String.fromCodePoint(0x652),String.fromCodePoint(0x653),String.fromCodePoint(0x654),String.fromCodePoint(0x655),String.fromCodePoint(0x656),String.fromCodePoint(0x657),String.fromCodePoint(0x658),String.fromCodePoint(0x659),String.fromCodePoint(0x65a),String.fromCodePoint(0x65b),String.fromCodePoint(0x65c),String.fromCodePoint(0x65d),String.fromCodePoint(0x65e),String.fromCodePoint(0x65f),String.fromCodePoint(0x660),String.fromCodePoint(0x661),String.fromCodePoint(0x662),String.fromCodePoint(0x663),String.fromCodePoint(0x664),String.fromCodePoint(0x665),String.fromCodePoint(0x666),String.fromCodePoint(0x667),String.fromCodePoint(0x668),String.fromCodePoint(0x669),String.fromCodePoint(0x66a),String.fromCodePoint(0x66b),String.fromCodePoint(0x66c),String.fromCodePoint(0x66d),String.fromCodePoint(0x66e),String.fromCodePoint(0x66f),String.fromCodePoint(0x670),String.fromCodePoint(0x671),String.fromCodePoint(0x672),String.fromCodePoint(0x673),String.fromCodePoint(0x674),String.fromCodePoint(0x675),String.fromCodePoint(0x676),String.fromCodePoint(0x677),String.fromCodePoint(0x678),String.fromCodePoint(0x679),String.fromCodePoint(0x67a),String.fromCodePoint(0x67b),String.fromCodePoint(0x67c),String.fromCodePoint(0x67d),String.fromCodePoint(0x67e),String.fromCodePoint(0x67f),String.fromCodePoint(0x680),String.fromCodePoint(0x681),String.fromCodePoint(0x682),String.fromCodePoint(0x683),String.fromCodePoint(0x684),String.fromCodePoint(0x685),String.fromCodePoint(0x686),String.fromCodePoint(0x687),String.fromCodePoint(0x688),String.fromCodePoint(0x689),String.fromCodePoint(0x68a),String.fromCodePoint(0x68b),String.fromCodePoint(0x68c),String.fromCodePoint(0x68d),String.fromCodePoint(0x68e),String.fromCodePoint(0x68f),String.fromCodePoint(0x690),String.fromCodePoint(0x691),String.fromCodePoint(0x692),String.fromCodePoint(0x693),String.fromCodePoint(0x694),String.fromCodePoint(0x695),String.fromCodePoint(0x696),String.fromCodePoint(0x697),String.fromCodePoint(0x698),String.fromCodePoint(0x699),String.fromCodePoint(0x69a),String.fromCodePoint(0x69b),String.fromCodePoint(0x69c),String.fromCodePoint(0x69d),String.fromCodePoint(0x69e),String.fromCodePoint(0x69f),String.fromCodePoint(0x6a0),String.fromCodePoint(0x6a1),String.fromCodePoint(0x6a2),String.fromCodePoint(0x6a3),String.fromCodePoint(0x6a4),String.fromCodePoint(0x6a5),String.fromCodePoint(0x6a6),String.fromCodePoint(0x6a7),String.fromCodePoint(0x6a8),String.fromCodePoint(0x6a9),String.fromCodePoint(0x6aa),String.fromCodePoint(0x6ab),String.fromCodePoint(0x6ac),String.fromCodePoint(0x6ad),String.fromCodePoint(0x6ae),String.fromCodePoint(0x6af),String.fromCodePoint(0x6b0),String.fromCodePoint(0x6b1),String.fromCodePoint(0x6b2),String.fromCodePoint(0x6b3),String.fromCodePoint(0x6b4),String.fromCodePoint(0x6b5),String.fromCodePoint(0x6b6),String.fromCodePoint(0x6b7),String.fromCodePoint(0x6b8),String.fromCodePoint(0x6b9),String.fromCodePoint(0x6ba),String.fromCodePoint(0x6bb),String.fromCodePoint(0x6bc),String.fromCodePoint(0x6bd),String.fromCodePoint(0x6be),String.fromCodePoint(0x6bf),String.fromCodePoint(0x6c0),String.fromCodePoint(0x6c1),String.fromCodePoint(0x6c2),String.fromCodePoint(0x6c3),String.fromCodePoint(0x6c4),String.fromCodePoint(0x6c5),String.fromCodePoint(0x6c6),String.fromCodePoint(0x6c7),String.fromCodePoint(0x6c8),String.fromCodePoint(0x6c9),String.fromCodePoint(0x6ca),String.fromCodePoint(0x6cb),String.fromCodePoint(0x6cc),String.fromCodePoint(0x6cd),String.fromCodePoint(0x6ce),String.fromCodePoint(0x6cf),String.fromCodePoint(0x6d0),String.fromCodePoint(0x6d1),String.fromCodePoint(0x6d2),String.fromCodePoint(0x6d3),String.fromCodePoint(0x6d4),String.fromCodePoint(0x6d5),String.fromCodePoint(0x6d6),String.fromCodePoint(0x6d7),String.fromCodePoint(0x6d8),String.fromCodePoint(0x6d9),String.fromCodePoint(0x6da),String.fromCodePoint(0x6db),String.fromCodePoint(0x6dc),String.fromCodePoint(0x6dd),String.fromCodePoint(0x6de),String.fromCodePoint(0x6df),String.fromCodePoint(0x6e0),String.fromCodePoint(0x6e1),String.fromCodePoint(0x6e2),String.fromCodePoint(0x6e3),String.fromCodePoint(0x6e4),String.fromCodePoint(0x6e5),String.fromCodePoint(0x6e6),String.fromCodePoint(0x6e7),String.fromCodePoint(0x6e8),String.fromCodePoint(0x6e9),String.fromCodePoint(0x6ea),String.fromCodePoint(0x6eb),String.fromCodePoint(0x6ec),String.fromCodePoint(0x6ed),String.fromCodePoint(0x6ee),String.fromCodePoint(0x6ef),String.fromCodePoint(0x6f0),String.fromCodePoint(0x6f1),String.fromCodePoint(0x6f2),String.fromCodePoint(0x6f3),String.fromCodePoint(0x6f4),String.fromCodePoint(0x6f5),String.fromCodePoint(0x6f6),String.fromCodePoint(0x6f7),String.fromCodePoint(0x6f8),String.fromCodePoint(0x6f9),String.fromCodePoint(0x6fa),String.fromCodePoint(0x6fb),String.fromCodePoint(0x6fc),String.fromCodePoint(0x6fd),String.fromCodePoint(0x6fe),String.fromCodePoint(0x6ff)];
+    const rainChars = filterTofu(charsRaw, fontStack);
+    const canvas = document.getElementById('matrixCanvas');
+    const ctx = canvas.getContext('2d');
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    let fontSize = 32;
+    let columns = Math.floor(width / fontSize);
+    let drops = Array(columns).fill(1);
+    function resizeCanvas() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+      columns = Math.floor(width / fontSize);
+      drops = Array(columns).fill(1);
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    function draw() {
+      ctx.fillStyle = 'rgba(0,0,0,0.08)';
+      ctx.fillRect(0, 0, width, height);
+      ctx.font = fontSize + 'px ' + fontStack;
+      ctx.fillStyle = '#0f0';
+      for (let i = 0; i < columns; i++) {
+        const text = rainChars[Math.floor(Math.random() * rainChars.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+    setInterval(draw, 50);
+  </script>
+</body>
+</html>
